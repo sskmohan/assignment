@@ -1,0 +1,37 @@
+---
+server: 
+  port: 0
+---
+
+spring: 
+  profiles: DEV
+  application:
+    name: UserAssignment
+  jpa: 
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+        cache: 
+          use_query_cache: true
+          use_second_level_cache: true
+          hazelcast: 
+            use_native_client: true
+            native_client_address: localhost:5701
+            native_client_group: dev
+            native_client_password: dev-pass
+          region:
+            factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+  datasource:
+    name: assignment
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+eureka: 
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.profiles.active}:${spring.application.instance_id:${random.value}}​
+  
